@@ -10,7 +10,6 @@ def bisect_sf(
     maxiter: int = 100,
 ) -> Tuple[float, int, float, List[float]]:
     """Find a root of f on [a, b] via the bisection method.
-
     Returns (root, iterations, residual, history of |f(x_n)|).
     """
     if f(a) * f(b) >= 0:
@@ -40,10 +39,9 @@ def chord_sf(
     a: float,
     b: float,
     eps: float = 1e-3,
-    maxiter: int = 100,
+    maxiter: int = 500,
 ) -> Tuple[float, int, float, List[float]]:
     """Find a root of f on [a, b] via the chord (regula falsi) method.
-
     Returns (root, iterations, residual, history of |f(x_n)|).
     """
     if f(a) * f(b) >= 0:
@@ -56,12 +54,13 @@ def chord_sf(
 
     for iterations in range(1, maxiter + 1):
         c = b - f(b) * (b - a) / (f(b) - f(a))
-        history.append(abs(f(c)))
+        fc = f(c)
+        history.append(abs(fc))
 
-        if abs(f(c)) < eps or abs(c - c_prev) < eps:
+        if abs(fc) < eps or abs(c - c_prev) < eps:
             break
 
-        if f(a) * f(c) < 0:
+        if f(a) * fc < 0:
             b = c
         else:
             a = c
